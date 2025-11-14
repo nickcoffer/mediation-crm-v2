@@ -2,6 +2,11 @@ export const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:80
 
 // Auto-login with default credentials
 export async function ensureLoggedIn() {
+  // Check if we're in the browser
+  if (typeof window === "undefined") {
+    return null;
+  }
+  
   // Check if we already have a token
   const existingToken = localStorage.getItem("token");
   if (existingToken) {
