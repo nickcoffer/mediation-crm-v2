@@ -6,8 +6,6 @@ import NewCaseModal from "../../components/NewCaseModal";
 
 export const dynamic = 'force-dynamic';
 
-function StatusBadge({ status }: { status: string }) {
-
 export default function Dashboard() {
   const [stats, setStats] = useState<any>(null);
   const [cases, setCases] = useState<any[]>([]);
@@ -271,46 +269,4 @@ export default function Dashboard() {
       <div className="card">
         <div className="card-body">
           <h2 className="heading-sm mb-4">Quick Actions</h2>
-          <div className="grid md:grid-cols-3 gap-3">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-3 p-4 rounded-xl border border-[--border] hover:border-[--primary] hover:bg-[--primary-light] transition-all group"
-            >
-              <div className="text-2xl">📝</div>
-              <div className="text-left">
-                <div className="font-medium text-sm group-hover:text-[--primary]">
-                  New Case
-                </div>
-                <div className="text-xs text-muted">Start a new case</div>
-              </div>
-            </button>
-            <Link
-              href="/"
-              className="flex items-center gap-3 p-4 rounded-xl border border-[--border] hover:border-[--primary] hover:bg-[--primary-light] transition-all group"
-            >
-              <div className="text-2xl">📊</div>
-              <div className="text-left">
-                <div className="font-medium text-sm group-hover:text-[--primary]">
-                  Export Data
-                </div>
-                <div className="text-xs text-muted">Backup your data</div>
-              </div>
-            </Link>
-            <Link
-              href="/kanban"
-              className="flex items-center gap-3 p-4 rounded-xl border border-[--border] hover:border-[--primary] hover:bg-[--primary-light] transition-all group"
-            >
-              <div className="text-2xl">📋</div>
-              <div className="text-left">
-                <div className="font-medium text-sm group-hover:text-[--primary]">
-                  Progress View
-                </div>
-                <div className="text-xs text-muted">Kanban board</div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+          <div className="grid md:grid-col
