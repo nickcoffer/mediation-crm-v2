@@ -31,7 +31,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,https://mediation-crm-v2.vercel.app').split(',')
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://mediation-crm-v2.vercel.app"]
 
 ROOT_URLCONF = "mediation_crm.urls"
 
