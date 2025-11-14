@@ -6,6 +6,8 @@ import { getCases, ensureLoggedIn } from "./lib/api";
 import NewCaseModal from "../components/NewCaseModal";
 import ExportData from "../components/ExportData";
 
+export const dynamic = 'force-dynamic';
+
 function StatusBadge({ status }: { status: string }) {
   const s = (status || "").toUpperCase();
   const base = "badge";

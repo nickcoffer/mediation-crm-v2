@@ -4,6 +4,10 @@ import Link from "next/link";
 import { API_BASE } from "../lib/api";
 import NewCaseModal from "../../components/NewCaseModal";
 
+export const dynamic = 'force-dynamic';
+
+function StatusBadge({ status }: { status: string }) {
+
 export default function Dashboard() {
   const [stats, setStats] = useState<any>(null);
   const [cases, setCases] = useState<any[]>([]);
