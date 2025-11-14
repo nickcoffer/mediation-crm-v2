@@ -89,3 +89,4 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 CSRF_TRUSTED_ORIGINS = ["https://mediation-crm-v2.vercel.app"]
+CORS_ALLOW_CREDENTIALS = True
