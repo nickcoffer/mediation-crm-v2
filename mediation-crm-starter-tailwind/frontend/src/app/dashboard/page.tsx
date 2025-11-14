@@ -21,7 +21,6 @@ export default function Dashboard() {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    // Fetch cases to calculate stats
     fetch(`${API_BASE}/api/cases/`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -32,7 +31,6 @@ export default function Dashboard() {
       })
       .catch(console.error);
 
-    // Check last export date
     const lastExportDate = localStorage.getItem("lastExportDate");
     if (lastExportDate) {
       setLastExport(lastExportDate);
@@ -45,7 +43,6 @@ export default function Dashboard() {
     ).length;
     const totalCases = casesData.length;
 
-    // Calculate upcoming sessions
     const now = new Date();
     let upcomingSessions = 0;
     casesData.forEach((c) => {
@@ -58,7 +55,6 @@ export default function Dashboard() {
       }
     });
 
-    // Get this month's enquiries
     const thisMonth = new Date().getMonth();
     const thisYear = new Date().getFullYear();
     const thisMonthEnquiries = casesData.filter((c) => {
@@ -72,7 +68,6 @@ export default function Dashboard() {
       return false;
     }).length;
 
-    // Calculate real payment totals
     let totalOutstanding = 0;
     let unpaidCount = 0;
     
@@ -118,7 +113,6 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="heading-lg text-[--text-primary]">Dashboard</h1>
@@ -129,14 +123,12 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* New Case Modal */}
       <NewCaseModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onCreated={handleCaseCreated}
       />
 
-      {/* Backup Reminder */}
       {showBackupReminder && (
         <div className="alert alert-warning flex items-start justify-between">
           <div className="flex items-start gap-3">
@@ -166,9 +158,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Stats Grid */}
       <div className="grid md:grid-cols-4 gap-6">
-        {/* Active Cases */}
         <Link href="/?status=ACTIVE" className="stat-card cursor-pointer">
           <div className="stat-card-icon bg-blue-100 text-blue-600">
             📁
@@ -182,7 +172,6 @@ export default function Dashboard() {
           </div>
         </Link>
 
-        {/* Upcoming Sessions */}
         <Link href="/sessions" className="stat-card cursor-pointer">
           <div className="stat-card-icon bg-purple-100 text-purple-600">
             📅
@@ -196,7 +185,6 @@ export default function Dashboard() {
           </div>
         </Link>
 
-        {/* Outstanding Payments */}
         <Link href="/?status=PAYMENTS" className="stat-card cursor-pointer">
           <div className="stat-card-icon bg-orange-100 text-orange-600">
             £
@@ -210,7 +198,6 @@ export default function Dashboard() {
           </div>
         </Link>
 
-        {/* This Month */}
         <Link href="/?status=ENQUIRY&month=current" className="stat-card cursor-pointer">
           <div className="stat-card-icon bg-green-100 text-green-600">
             🕐
@@ -225,9 +212,7 @@ export default function Dashboard() {
         </Link>
       </div>
 
-      {/* Recent Activity / Reminders Section */}
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Reminders & Follow-ups */}
         <div className="card">
           <div className="card-body">
             <div className="flex items-center gap-2 mb-4">
@@ -240,7 +225,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Payment Overview */}
         <div className="card">
           <div className="card-body">
             <div className="flex items-center gap-2 mb-4">
@@ -265,8 +249,49 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Quick Actions */}
       <div className="card">
         <div className="card-body">
           <h2 className="heading-sm mb-4">Quick Actions</h2>
-          <div className="grid md:grid-col
+          <div className="grid md:grid-cols-3 gap-3">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center gap-3 p-4 rounded-xl border border-[--border] hover:border-[--primary] hover:bg-[--primary-light] transition-all group"
+            >
+              <div className="text-2xl">📝</div>
+              <div className="text-left">
+                <div className="font-medium text-sm group-hover:text-[--primary]">
+                  New Case
+                </div>
+                <div className="text-xs text-muted">Start a new case</div>
+              </div>
+            </button>
+            <Link
+              href="/"
+              className="flex items-center gap-3 p-4 rounded-xl border border-[--border] hover:border-[--primary] hover:bg-[--primary-light] transition-all group"
+            >
+              <div className="text-2xl">📊</div>
+              <div className="text-left">
+                <div className="font-medium text-sm group-hover:text-[--primary]">
+                  Export Data
+                </div>
+                <div className="text-xs text-muted">Backup your data</div>
+              </div>
+            </Link>
+            <Link
+              href="/kanban"
+              className="flex items-center gap-3 p-4 rounded-xl border border-[--border] hover:border-[--primary] hover:bg-[--primary-light] transition-all group"
+            >
+              <div className="text-2xl">📋</div>
+              <div className="text-left">
+                <div className="font-medium text-sm group-hover:text-[--primary]">
+                  Progress View
+                </div>
+                <div className="text-xs text-muted">Kanban board</div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
