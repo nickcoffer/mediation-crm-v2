@@ -144,7 +144,7 @@ export default function SessionModal({
   }, [existingSession, isOpen, sessionType]);
 
   function toggle<T extends object>(setter: (v: T) => void, key: keyof T) {
-    setter((prev: any) => ({ ...prev, [key]: !prev[key] }));
+    setter((prev: any) => ({ ...prev, [key]: !prev[key] }) as T);
   }
 
   async function handleSubmit(e: any) {
