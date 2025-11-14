@@ -25,23 +25,20 @@ export default function HomePage() {
   const searchParams = useSearchParams();
   const [cases, setCases] = useState<any[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  // modal + reload trigger
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reloadFlag, setReloadFlag] = useState(false);
-
-  // search and filter state - initialize from URL params
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState(() => {
+  const [statusFilter, setStatusFilter] = useState("ALL");
+
+  useEffect(() => {
     const urlStatus = searchParams.get("status");
-    if (urlStatus === "ACTIVE") return "ACTIVE";
-    if (urlStatus === "PAYMENTS") return "PAYMENTS";
-    if (urlStatus === "ENQUIRY") return "ENQUIRY";
-    return "ALL";
-  });
+    if (urlStatus === "ACTIVE") setStatusFilter("ACTIVE");
+    else if (urlStatus === "PAYMENTS") setStatusFilter("PAYMENTS");
+    else if (urlStatus === "ENQUIRY") setStatusFilter("ENQUIRY");
+  }, [searchParams]);
 
   function handleCreated() {
-    setReloadFlag((f) => !f); // refresh list after new case created
+    setReloadFlag((f) => !f);
   }
 
   useEffect(() => {
@@ -87,24 +84,20 @@ export default function HomePage() {
   if (!cases)
     return (
       <div className="card">
-        <div className="card-body">Loading…</div>
+        <div className="card-body">Loading...</div>
       </div>
     );
 
-  // Filter and search cases
   const filteredCases = cases.filter((c) => {
-    // Special filters from dashboard
     if (statusFilter === "ACTIVE") {
       if (c.status !== "OPEN" && c.status !== "MIAM") return false;
     } else if (statusFilter === "PAYMENTS") {
       const outstanding = parseFloat(c.amount_owed || 0) - parseFloat(c.amount_paid || 0);
       if (outstanding <= 0) return false;
     } else if (statusFilter !== "ALL" && c.status !== statusFilter) {
-      // Normal status filter
       return false;
     }
 
-    // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       const searchableText = [
@@ -127,7 +120,6 @@ export default function HomePage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="heading-lg text-[--text-primary]">Cases</h1>
@@ -150,7 +142,6 @@ export default function HomePage() {
         onCreated={handleCreated}
       />
 
-      {/* Search and Filter Bar */}
       <div className="card">
         <div className="card-body">
           <div className="flex flex-col md:flex-row gap-4">
@@ -185,7 +176,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Cases Table */}
       <div className="card">
         <div className="overflow-x-auto">
           <table className="table">
