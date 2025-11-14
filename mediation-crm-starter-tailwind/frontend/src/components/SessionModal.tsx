@@ -143,7 +143,6 @@ export default function SessionModal({
     }
   }, [existingSession, isOpen, sessionType]);
 
-  function toggle<T extends object>(setter: (v: T) => void, key: keyof T) {
    function toggle<T extends object>(setter: React.Dispatch<React.SetStateAction<T>>, key: keyof T) {
   setter((prev: T) => ({ ...prev, [key]: !prev[key] }) as T);
 }
