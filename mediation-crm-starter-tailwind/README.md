@@ -1,79 +1,43 @@
-# MEDIATION CRM - Installation Guide
+# Mediation Manager CRM
 
-## What you need (ONE-TIME SETUP)
+A comprehensive case management system for family mediators, built with Next.js and Django.
 
-Before you can use the CRM, you need to install two free programs:
+## One-Click Deploy
 
-### 1. Python (10 minutes)
-- **Windows:** Go to https://python.org/downloads → Download → Run installer
-  - ⚠️ IMPORTANT: Tick the box "Add Python to PATH" before clicking Install
-- **Mac:** Go to https://python.org/downloads → Download → Run installer
+Deploy your own private instance to Railway (approximately £7/month):
 
-### 2. Node.js (5 minutes)
-- Go to https://nodejs.org
-- Download the LTS version (left button)
-- Run the installer
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/Da7tEE?referralCode=s5umCU&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
----
+## What You Get
 
-## Setting up the CRM (ONE-TIME, 5-10 minutes)
+- **Case Management**: Track all your mediation cases in one place
+- **Session Scheduling**: Manage appointments and sessions
+- **Payment Tracking**: Monitor payments and invoices
+- **MIAM Forms**: Digital forms for Mediation Information & Assessment Meetings
+- **Secure Authentication**: JWT-based login system
+- **Modern Design**: Clean, Apple-inspired interface
 
-Once Python and Node.js are installed:
+## After Deployment
 
-### Windows:
-1. Double-click `SETUP.bat`
-2. Wait while it installs (2-3 minutes) - text will scroll by, this is normal!
-3. When it says "Setup complete", you're done!
+1. Click the deploy button above
+2. Wait 2-3 minutes for Railway to build and deploy
+3. Click on your new service to get your URL
+4. Login with default credentials: `admin` / `admin`
+5. **Important**: Change your password immediately after first login
 
-### Mac:
-1. Right-click `SETUP.command` → Open
-2. If you get a security warning, click "Open anyway"
-3. Wait while it installs (2-3 minutes)
-4. When it says "Setup complete", you're done!
+## Tech Stack
 
-**No login needed!** The CRM opens directly to your dashboard.
+- Frontend: Next.js 14, React, Tailwind CSS
+- Backend: Django REST Framework
+- Database: SQLite
+- Authentication: JWT tokens
 
----
+## Support
 
-## Using the CRM (EVERY DAY - EASY!)
+Created by Nick Coffer as a gift to the mediation community.
 
-### Windows:
-1. Double-click `START-CRM.bat`
-2. Two black windows will open - DON'T CLOSE THEM
-3. Your browser opens automatically showing the CRM
-4. When finished, close the two black windows
+For questions or issues, please open a GitHub issue.
 
-### Mac:
-1. Right-click `START-CRM.command` → Open
-2. Two terminal windows open - DON'T CLOSE THEM
-3. Your browser opens automatically showing the CRM
-4. When finished, close the two terminal windows
+## License
 
----
-
-## Troubleshooting
-
-**"Python not found" or "Node not found"**
-- You need to install Python and Node.js first (see above)
-- Windows users: Make sure you ticked "Add Python to PATH"
-
-**"Port already in use"**
-- Something else is using port 3000 or 8000
-- Close other programs and try again
-
-**Still stuck?**
-- Call/text Nick - he'll help you out!
-
----
-
-## Your Data
-
-All your data is stored on YOUR computer in the `backend/db.sqlite3` file.
-
-**To backup:** Just copy that file somewhere safe (USB drive, cloud storage, etc.)
-
-**To restore:** Replace the file with your backup
-
----
-
-Enjoy your CRM! 🎉
+Open source - use freely for your mediation practice.
