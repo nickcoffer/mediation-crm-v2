@@ -1,4 +1,4 @@
-// File: /Users/nickcoffer/Downloads/mediation-crm-starter-tailwind/frontend/src/app/calendar/page.tsx
+// File: /app/src/app/calendar/page.tsx
 import * as entry from '../../../../src/app/calendar/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

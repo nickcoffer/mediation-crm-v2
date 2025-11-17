@@ -1,6 +1,6 @@
 {
+  "/calendar/page": "app/calendar/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/page": "app/page.js",
-  "/login/page": "app/login/page.js",
-  "/calendar/page": "app/calendar/page.js"
+  "/kanban/page": "app/kanban/page.js",
+  "/page": "app/page.js"
 }
