@@ -8,7 +8,7 @@ export async function ensureLoggedIn() {
   }
   
   // Check if we already have a token
-  const existingToken = localStorage.getItem("token");
+  const existingToken = localStorage.getItem("access_token");
   if (existingToken) {
     return existingToken;
   }
@@ -23,7 +23,7 @@ export async function ensureLoggedIn() {
     
     if (res.ok) {
       const data = await res.json();
-      localStorage.setItem("token", data.access);
+      localStorage.setItem("access_token", data.access);
       return data.access;
     }
   } catch (error) {
