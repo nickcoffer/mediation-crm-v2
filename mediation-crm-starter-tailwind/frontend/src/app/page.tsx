@@ -81,6 +81,7 @@ export default function HomePage() {
       </div>
     );
 
+  // While we have not yet loaded cases from the API
   if (!cases)
     return (
       <div className="card">
@@ -88,11 +89,15 @@ export default function HomePage() {
       </div>
     );
 
-  const filteredCases = cases.filter((c) => {
+  // ✅ Safety: always treat cases as an array, even if something weird comes back
+  const safeCases = Array.isArray(cases) ? cases : [];
+
+  const filteredCases = safeCases.filter((c) => {
     if (statusFilter === "ACTIVE") {
       if (c.status !== "OPEN" && c.status !== "MIAM") return false;
     } else if (statusFilter === "PAYMENTS") {
-      const outstanding = parseFloat(c.amount_owed || 0) - parseFloat(c.amount_paid || 0);
+      const outstanding =
+        parseFloat(c.amount_owed || 0) - parseFloat(c.amount_paid || 0);
       if (outstanding <= 0) return false;
     } else if (statusFilter !== "ALL" && c.status !== statusFilter) {
       return false;
@@ -109,7 +114,7 @@ export default function HomePage() {
         .filter(Boolean)
         .join(" ")
         .toLowerCase();
-      
+
       if (!searchableText.includes(query)) {
         return false;
       }
@@ -124,8 +129,10 @@ export default function HomePage() {
         <div>
           <h1 className="heading-lg text-[--text-primary]">Cases</h1>
           <p className="text-muted mt-1">
-            Showing {filteredCases.length} {filteredCases.length === 1 ? 'case' : 'cases'}
-            {(searchQuery || statusFilter !== "ALL") && ` (filtered from ${cases.length} total)`}
+            Showing {filteredCases.length}{" "}
+            {filteredCases.length === 1 ? "case" : "cases"}
+            {(searchQuery || statusFilter !== "ALL") &&
+              ` (filtered from ${safeCases.length} total)`}
           </p>
         </div>
         <button
@@ -147,7 +154,9 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[--text-tertiary]">🔍</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[--text-tertiary]">
+                  🔍
+                </span>
                 <input
                   type="text"
                   placeholder="Search by reference, title, or party name..."
@@ -194,7 +203,7 @@ export default function HomePage() {
                     <div className="text-4xl mb-2">📂</div>
                     <div>No cases found</div>
                     {searchQuery && (
-                      <button 
+                      <button
                         onClick={() => setSearchQuery("")}
                         className="text-[--primary] text-xs mt-2 underline"
                       >
@@ -207,7 +216,9 @@ export default function HomePage() {
                 filteredCases.map((c) => {
                   const fallbackTitle =
                     c.title ||
-                    [c.party1_name, c.party2_name].filter(Boolean).join(" & ") ||
+                    [c.party1_name, c.party2_name]
+                      .filter(Boolean)
+                      .join(" & ") ||
                     "Untitled";
                   return (
                     <tr key={c.id} className="tr">
@@ -223,7 +234,9 @@ export default function HomePage() {
                         <div className="font-medium">{fallbackTitle}</div>
                         {c.title && (c.party1_name || c.party2_name) && (
                           <div className="text-xs text-muted mt-0.5">
-                            {[c.party1_name, c.party2_name].filter(Boolean).join(" & ")}
+                            {[c.party1_name, c.party2_name]
+                              .filter(Boolean)
+                              .join(" & ")}
                           </div>
                         )}
                       </td>
@@ -232,10 +245,10 @@ export default function HomePage() {
                       </td>
                       <td className="td text-muted">
                         {c.updated_at
-                          ? new Date(c.updated_at).toLocaleDateString('en-GB', {
-                              day: 'numeric',
-                              month: 'short',
-                              year: 'numeric'
+                          ? new Date(c.updated_at).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
                             })
                           : "-"}
                       </td>
