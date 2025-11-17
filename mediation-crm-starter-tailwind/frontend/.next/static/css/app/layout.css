@@ -799,14 +799,14 @@ body{
 .border-b{
   border-bottom-width: 1px;
 }
+.border-l-2{
+  border-left-width: 2px;
+}
 .border-l-4{
   border-left-width: 4px;
 }
 .border-t{
   border-top-width: 1px;
-}
-.border-l-2{
-  border-left-width: 2px;
 }
 .border-dashed{
   border-style: dashed;
@@ -818,6 +818,10 @@ body{
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
+.border-purple-400{
+  --tw-border-opacity: 1;
+  border-color: rgb(192 132 252 / var(--tw-border-opacity));
+}
 .border-red-300{
   --tw-border-opacity: 1;
   border-color: rgb(252 165 165 / var(--tw-border-opacity));
@@ -825,10 +829,6 @@ body{
 .border-teal-500{
   --tw-border-opacity: 1;
   border-color: rgb(20 184 166 / var(--tw-border-opacity));
-}
-.border-purple-400{
-  --tw-border-opacity: 1;
-  border-color: rgb(192 132 252 / var(--tw-border-opacity));
 }
 .bg-\[--primary\]{
   background-color: var(--primary);
@@ -977,6 +977,9 @@ body{
 .pl-12{
   padding-left: 3rem;
 }
+.pl-3{
+  padding-left: 0.75rem;
+}
 .pl-5{
   padding-left: 1.25rem;
 }
@@ -988,9 +991,6 @@ body{
 }
 .pt-4{
   padding-top: 1rem;
-}
-.pl-3{
-  padding-left: 0.75rem;
 }
 .text-left{
   text-align: left;
