@@ -10,7 +10,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [practiceName, setPracticeName] = useState("Family Mediation Practice");
 
   useEffect(() => {
-    // Load practice name from localStorage
     const saved = localStorage.getItem("practiceName");
     if (saved) setPracticeName(saved);
   }, []);
@@ -25,7 +24,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        {/* Sidebar */}
         <aside className="sidebar">
           <div className="p-6 border-b border-[--border]">
             <div className="flex items-center gap-3 mb-3">
@@ -39,12 +37,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="text-xs text-muted space-y-1">
               <div>Built by Nick Coffer</div>
               <div>at Way Forward Mediation</div>
-              <a 
-                href="mailto:info@wayforwardmediation.co.uk" 
-                className="text-[--primary] hover:underline block mt-2"
-              >
-                📧 info@wayforwardmediation.co.uk
-              </a>
             </div>
           </div>
 
@@ -76,9 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </aside>
 
-        {/* Main Content Area */}
         <div className="ml-64">
-          {/* Top Header */}
           <header className="border-b border-[--border] bg-white sticky top-0 z-10">
             <div className="px-8 py-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -96,7 +86,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </header>
 
-          {/* Page Content */}
           <main className="px-8 py-8 min-h-screen">{children}</main>
         </div>
       </body>
