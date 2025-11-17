@@ -805,6 +805,9 @@ body{
 .border-t{
   border-top-width: 1px;
 }
+.border-l-2{
+  border-left-width: 2px;
+}
 .border-dashed{
   border-style: dashed;
 }
@@ -822,6 +825,10 @@ body{
 .border-teal-500{
   --tw-border-opacity: 1;
   border-color: rgb(20 184 166 / var(--tw-border-opacity));
+}
+.border-purple-400{
+  --tw-border-opacity: 1;
+  border-color: rgb(192 132 252 / var(--tw-border-opacity));
 }
 .bg-\[--primary\]{
   background-color: var(--primary);
@@ -981,6 +988,9 @@ body{
 }
 .pt-4{
   padding-top: 1rem;
+}
+.pl-3{
+  padding-left: 0.75rem;
 }
 .text-left{
   text-align: left;

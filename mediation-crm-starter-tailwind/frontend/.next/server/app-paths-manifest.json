@@ -1,5 +1,4 @@
 {
   "/cases/[id]/page": "app/cases/[id]/page.js",
-  "/todos/page": "app/todos/page.js",
-  "/page": "app/page.js"
+  "/dashboard/page": "app/dashboard/page.js"
 }

@@ -6,9 +6,20 @@ import NewCaseModal from "../../components/NewCaseModal";
 
 export const dynamic = 'force-dynamic';
 
+type Todo = {
+  id: string;
+  title: string;
+  due_date: string | null;
+  is_completed: boolean;
+  case: string;
+  case_reference: string;
+  case_title: string;
+};
+
 export default function Dashboard() {
   const [stats, setStats] = useState<any>(null);
   const [cases, setCases] = useState<any[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [lastExport, setLastExport] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reloadFlag, setReloadFlag] = useState(false);
@@ -21,6 +32,7 @@ export default function Dashboard() {
     const token = localStorage.getItem("token");
     if (!token) return;
 
+    // Fetch cases
     fetch(`${API_BASE}/api/cases/`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -28,6 +40,16 @@ export default function Dashboard() {
       .then((data) => {
         setCases(data);
         calculateStats(data);
+      })
+      .catch(console.error);
+
+    // Fetch todos
+    fetch(`${API_BASE}/api/todos/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        setTodos(data);
       })
       .catch(console.error);
 
@@ -100,6 +122,20 @@ export default function Dashboard() {
     return days;
   }
 
+  // Get upcoming and overdue todos
+  const now = new Date();
+  const upcomingTodos = todos
+    .filter((t) => !t.is_completed && t.due_date)
+    .sort((a, b) => {
+      if (!a.due_date || !b.due_date) return 0;
+      return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
+    })
+    .slice(0, 5); // Show max 5
+
+  const overdueTodos = upcomingTodos.filter(
+    (t) => t.due_date && new Date(t.due_date) < now
+  );
+
   const daysSinceExport = getDaysSinceExport();
   const showBackupReminder = daysSinceExport === null || daysSinceExport > 7;
 
@@ -161,7 +197,7 @@ export default function Dashboard() {
       <div className="grid md:grid-cols-4 gap-6">
         <Link href="/?status=ACTIVE" className="stat-card cursor-pointer">
           <div className="stat-card-icon bg-blue-100 text-blue-600">
-            📁
+            📂
           </div>
           <div className="text-3xl font-bold text-[--text-primary] mb-1">
             {stats.activeCases}
@@ -215,13 +251,40 @@ export default function Dashboard() {
       <div className="grid md:grid-cols-2 gap-6">
         <div className="card">
           <div className="card-body">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-xl">🔔</span>
-              <h2 className="heading-sm">Reminders & Follow-ups</h2>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🔔</span>
+                <h2 className="heading-sm">Upcoming To-dos</h2>
+              </div>
+              <Link href="/todos" className="text-xs text-[--primary] hover:underline">
+                View all
+              </Link>
             </div>
-            <div className="text-sm text-muted">
-              No upcoming reminders
-            </div>
+            {upcomingTodos.length === 0 ? (
+              <div className="text-sm text-muted">No upcoming to-dos</div>
+            ) : (
+              <ul className="space-y-2">
+                {upcomingTodos.map((todo) => {
+                  const isOverdue = todo.due_date && new Date(todo.due_date) < now;
+                  return (
+                    <li key={todo.id} className="text-sm border-l-2 border-purple-400 pl-3 py-1">
+                      <Link href={`/cases/${todo.case}`} className="hover:underline">
+                        <div className="font-medium">{todo.title}</div>
+                        <div className={`text-xs mt-0.5 ${isOverdue ? 'text-red-600 font-medium' : 'text-muted'}`}>
+                          {isOverdue && '⚠️ '}
+                          {todo.case_reference} · Due {new Date(todo.due_date!).toLocaleDateString('en-GB')}
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+            {overdueTodos.length > 0 && (
+              <div className="mt-3 pt-3 border-t text-xs text-red-600 font-medium">
+                ⚠️ {overdueTodos.length} overdue
+              </div>
+            )}
           </div>
         </div>
 
@@ -257,7 +320,7 @@ export default function Dashboard() {
               onClick={() => setIsModalOpen(true)}
               className="flex items-center gap-3 p-4 rounded-xl border border-[--border] hover:border-[--primary] hover:bg-[--primary-light] transition-all group"
             >
-              <div className="text-2xl">📝</div>
+              <div className="text-2xl">📂</div>
               <div className="text-left">
                 <div className="font-medium text-sm group-hover:text-[--primary]">
                   New Case
