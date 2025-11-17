@@ -72,3 +72,34 @@ class Session(TimeStamped):
 
     def __str__(self):
         return f"{self.case.reference} — {self.session_type}"
+
+class Todo(TimeStamped):
+    case = models.ForeignKey(Case, related_name="todos", on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    due_date = models.DateField(null=True, blank=True)
+    is_completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['due_date', 'created_at']
+
+    def __str__(self):
+        return f"{self.case.reference} — {self.title}"
+
+class Appointment(TimeStamped):
+    # Optional link to a case
+    case = models.ForeignKey(Case, related_name="appointments", on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    location = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        ordering = ['start']
+
+    def __str__(self):
+        if self.case:
+            return f"{self.case.reference} — {self.title}"
+        return self.title
