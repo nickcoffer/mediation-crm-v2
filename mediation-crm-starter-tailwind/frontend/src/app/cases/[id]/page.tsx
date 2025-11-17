@@ -8,6 +8,7 @@ import EditCaseModal from "../../../components/EditCaseModal";
 import MIAMSummaryDisplay from "../../../components/MIAMSummaryDisplay";
 import QuickBookModal from "../../../components/QuickBookModal";
 import PaymentModal from "../../../components/PaymentModal";
+import TodoList from "../../../components/TodoList";
 
 export default function CaseDetail() {
   const router = useRouter();
@@ -203,28 +204,34 @@ export default function CaseDetail() {
           </div>
         </div>
 
+        {/* To-dos card */}
+        <div className="card md:col-span-2">
+          <div className="card-body">
+            <TodoList caseId={safeCaseId} onUpdate={() => setReloadSessions(v => !v)} />
+          </div>
+        </div>
+
         {/* Sessions card */}
         <div className="card md:col-span-2">
-          <div className="card-body space-y-3">
-            <div className="flex items-center justify-between">
+          <div className="card-body">
+            <div className="flex items-center justify-between mb-3">
               <h2 className="font-semibold">Sessions</h2>
               <div className="flex gap-2">
                 <button
                   onClick={() => setIsQuickBookMiamOpen(true)}
-                  className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="px-3 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
                 >
-                  Book MIAM
+                  📅 Book MIAM
                 </button>
                 <button
                   onClick={() => setIsQuickBookJointOpen(true)}
-                  className="px-3 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+                  className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
-                  Book Joint Session
+                  📅 Book Joint Session
                 </button>
               </div>
             </div>
-
-            <ul className="divide-y divide-gray-200 space-y-2">
+            <ul className="space-y-2">
               {item.sessions?.length ? (
                 item.sessions.map((s: any) => {
                   const date =
@@ -349,7 +356,7 @@ export default function CaseDetail() {
             caseId={safeCaseId}
             sessionType="MIAM"
             party1Name={item.party1_name}
-            party2Name={item.party2Name}
+            party2Name={item.party2_name}
           />
           <QuickBookModal
             isOpen={isQuickBookJointOpen}
