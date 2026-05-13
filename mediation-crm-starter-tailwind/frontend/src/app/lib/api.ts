@@ -5,6 +5,11 @@ export function getToken(): string | null {
   return localStorage.getItem("access_token");
 }
 
+// Kept for compatibility with other pages - just reads the token, no auto-login
+export function ensureLoggedIn(): string | null {
+  return getToken();
+}
+
 export function logout() {
   if (typeof window === "undefined") return;
   localStorage.removeItem("access_token");
