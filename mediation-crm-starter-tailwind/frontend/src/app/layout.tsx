@@ -1,18 +1,34 @@
 "use client";
 import "./globals.css";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Logo from "../components/Logo";
+import { logout } from "./lib/api";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [practiceName, setPracticeName] = useState("Family Mediation Practice");
+  const isLoginPage = pathname === "/login";
 
   useEffect(() => {
     const saved = localStorage.getItem("practiceName");
     if (saved) setPracticeName(saved);
   }, []);
+
+  useEffect(() => {
+    if (!isLoginPage) {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        router.replace("/login");
+      }
+    }
+  }, [pathname, isLoginPage, router]);
+
+  function handleSignOut() {
+    logout();
+    router.replace("/login");
+  }
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: "📊" },
@@ -21,6 +37,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     { href: "/todos", label: "To-dos", icon: "✅" },
     { href: "/calendar", label: "Calendar", icon: "📅" },
   ];
+
+  if (isLoginPage) {
+    return (
+      <html lang="en">
+        <body>
+          <div className="min-h-screen flex items-center justify-center bg-[--bg-secondary]">
+            {children}
+          </div>
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">
@@ -40,7 +68,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div>at Way Forward Mediation</div>
             </div>
           </div>
-
           <nav className="py-4">
             <div className="px-3 mb-2">
               <div className="text-xs font-semibold text-[--text-tertiary] uppercase tracking-wider px-4">
@@ -60,15 +87,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Link>
             ))}
           </nav>
-
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[--border]">
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[--border] space-y-1">
             <Link href="/settings" className="sidebar-item">
               <span className="text-lg">⚙️</span>
               <span>Settings</span>
             </Link>
+            <button
+              onClick={handleSignOut}
+              className="sidebar-item w-full text-left text-rose-600 hover:bg-rose-50"
+            >
+              <span className="text-lg">🚪</span>
+              <span>Sign out</span>
+            </button>
           </div>
         </aside>
-
         <div className="ml-64">
           <header className="border-b border-[--border] bg-white sticky top-0 z-10">
             <div className="px-8 py-4 flex items-center justify-between">
@@ -86,7 +118,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
           </header>
-
           <main className="px-8 py-8 min-h-screen">{children}</main>
         </div>
       </body>
