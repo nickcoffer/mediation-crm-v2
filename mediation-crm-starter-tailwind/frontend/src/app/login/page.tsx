@@ -2,34 +2,31 @@
 import { useState } from "react";
 import { login } from "../lib/api";
 import { useRouter } from "next/navigation";
-
 export default function LoginPage(){
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-
   async function onSubmit(e: React.FormEvent){
     e.preventDefault();
     setError(null);
     try {
-      const data = await login(email, password);
-     localStorage.setItem("access_token", data.access);
+      const data = await login(username, password);
+      localStorage.setItem("access_token", data.access);
       router.push("/");
     } catch (e:any){
       setError(e.message || "Login failed");
     }
   }
-
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto mt-24">
       <div className="card">
         <div className="card-body space-y-4">
-          <h1 className="text-xl font-semibold">Sign in</h1>
+          <h1 className="text-xl font-semibold">Sign in to Mediation Manager</h1>
           <form className="space-y-3" onSubmit={onSubmit}>
             <div>
-              <label className="block text-sm text-gray-600">Email</label>
-              <input className="w-full rounded-md border border-gray-300 px-3 py-2" placeholder="you@example.com" value={email} onChange={e=>setEmail(e.target.value)} />
+              <label className="block text-sm text-gray-600">Username</label>
+              <input className="w-full rounded-md border border-gray-300 px-3 py-2" placeholder="Your username" value={username} onChange={e=>setUsername(e.target.value)} />
             </div>
             <div>
               <label className="block text-sm text-gray-600">Password</label>
@@ -38,7 +35,6 @@ export default function LoginPage(){
             <button className="btn btn-primary w-full" type="submit">Sign in</button>
           </form>
           {error && <p className="text-sm text-rose-700">{error}</p>}
-          <p className="text-xs text-gray-500">Use the admin account you created in the backend step.</p>
         </div>
       </div>
     </div>
