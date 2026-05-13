@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { getCases, ensureLoggedIn } from "./lib/api";
+import { getCases, getToken } from "./lib/api";
 import NewCaseModal from "../components/NewCaseModal";
 import ExportData from "../components/ExportData";
 
@@ -23,6 +23,7 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function HomePage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [cases, setCases] = useState<any[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,9 +44,9 @@ export default function HomePage() {
 
   useEffect(() => {
     async function loadCases() {
-      const token = await ensureLoggedIn();
+      const token = getToken();
       if (!token) {
-        setError("Failed to initialize. Please restart the app.");
+        router.replace("/login");
         return;
       }
       setError(null);
@@ -54,7 +55,7 @@ export default function HomePage() {
         .catch((e) => setError(e?.message || "Failed to fetch cases"));
     }
     loadCases();
-  }, [reloadFlag]);
+  }, [reloadFlag, router]);
 
   if (error)
     return (
@@ -81,7 +82,6 @@ export default function HomePage() {
       </div>
     );
 
-  // While we have not yet loaded cases from the API
   if (!cases)
     return (
       <div className="card">
@@ -89,7 +89,6 @@ export default function HomePage() {
       </div>
     );
 
-  // ✅ Safety: always treat cases as an array, even if something weird comes back
   const safeCases = Array.isArray(cases) ? cases : [];
 
   const filteredCases = safeCases.filter((c) => {
